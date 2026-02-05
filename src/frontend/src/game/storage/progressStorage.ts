@@ -1,4 +1,4 @@
-import { STORAGE_KEYS, TOTAL_LEVELS, type GameId, getGameStorageKey } from '../constants';
+import { STORAGE_KEYS, TOTAL_LEVELS } from '../constants';
 
 export interface ProgressData {
   completedLevels: number[];
@@ -14,10 +14,9 @@ export function getDefaultProgress(): ProgressData {
   };
 }
 
-export function loadProgress(gameId: GameId): ProgressData {
+export function loadProgress(): ProgressData {
   try {
-    const key = getGameStorageKey(gameId, STORAGE_KEYS.PROGRESS);
-    const stored = localStorage.getItem(key);
+    const stored = localStorage.getItem(STORAGE_KEYS.PROGRESS);
     if (stored) {
       return JSON.parse(stored);
     }
@@ -27,17 +26,16 @@ export function loadProgress(gameId: GameId): ProgressData {
   return getDefaultProgress();
 }
 
-export function saveProgress(gameId: GameId, progress: ProgressData): void {
+export function saveProgress(progress: ProgressData): void {
   try {
-    const key = getGameStorageKey(gameId, STORAGE_KEYS.PROGRESS);
-    localStorage.setItem(key, JSON.stringify(progress));
+    localStorage.setItem(STORAGE_KEYS.PROGRESS, JSON.stringify(progress));
   } catch (error) {
     console.error('Failed to save progress:', error);
   }
 }
 
-export function markLevelComplete(gameId: GameId, levelNumber: number): ProgressData {
-  const progress = loadProgress(gameId);
+export function markLevelComplete(levelNumber: number): ProgressData {
+  const progress = loadProgress();
   
   if (!progress.completedLevels.includes(levelNumber)) {
     progress.completedLevels.push(levelNumber);
@@ -48,22 +46,21 @@ export function markLevelComplete(gameId: GameId, levelNumber: number): Progress
   progress.currentLevel = nextLevel;
   progress.lastUnlockedLevel = Math.max(progress.lastUnlockedLevel, nextLevel);
   
-  saveProgress(gameId, progress);
+  saveProgress(progress);
   return progress;
 }
 
-export function skipToNextLevel(gameId: GameId, currentLevelNumber: number): ProgressData {
-  const progress = loadProgress(gameId);
+export function skipToNextLevel(currentLevelNumber: number): ProgressData {
+  const progress = loadProgress();
   
   const nextLevel = Math.min(currentLevelNumber + 1, TOTAL_LEVELS);
   progress.currentLevel = nextLevel;
   progress.lastUnlockedLevel = Math.max(progress.lastUnlockedLevel, nextLevel);
   
-  saveProgress(gameId, progress);
+  saveProgress(progress);
   return progress;
 }
 
-export function resetProgressData(gameId: GameId): void {
-  const key = getGameStorageKey(gameId, STORAGE_KEYS.PROGRESS);
-  localStorage.removeItem(key);
+export function resetProgressData(): void {
+  localStorage.removeItem(STORAGE_KEYS.PROGRESS);
 }

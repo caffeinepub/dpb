@@ -1,6 +1,3 @@
-import { type GameId, GAME_IDS } from '../constants';
-import { getRandomPromises100LoseMessage } from '../promises100/content/loseMessages';
-
 const LOSE_MESSAGES = [
   "Awww mazi chiuuuu 😘 harle ka?\nKahi nahi hot, punha try kar 💕",
   "Thoda miss zala, pan tu aahech perfect ❤️",
@@ -12,10 +9,7 @@ const LOSE_MESSAGES = [
   "Arre! So close! 💫\nNext time pakka! 🌟",
 ];
 
-export function getRandomLoseMessage(gameId: GameId = GAME_IDS.DEFAULT): string {
-  if (gameId === GAME_IDS.PROMISES_100) {
-    return getRandomPromises100LoseMessage();
-  }
+export function getRandomLoseMessage(): string {
   const index = Math.floor(Math.random() * LOSE_MESSAGES.length);
   return LOSE_MESSAGES[index];
 }

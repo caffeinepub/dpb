@@ -1,90 +1,201 @@
 import { useState, useEffect } from 'react';
-import { getLevelComponent } from '../game/levels/levelRegistry';
-import { getLevelBackground } from '../game/ui/levelBackground';
+import { Heart, Eye, EyeOff, SkipForward } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { SkipForward } from 'lucide-react';
-import { type GameId, GAME_IDS } from '../game/constants';
+import { Card } from '@/components/ui/card';
+import { getLevelComponent } from '../game/levels/levelRegistry';
+import { getPromisesKeptLevelComponent } from '../game/promisesKept/levels/levelRegistry';
+import { getHintForLevel } from '../game/content/levelHints';
+import { getPromisesKeptHint } from '../game/promisesKept/content/levelHints';
+import { getLevelBackground } from '../game/ui/levelBackground';
 
 interface LevelPlayScreenProps {
   levelNumber: number;
-  gameId?: GameId;
+  gameEventId: 'event-1' | 'event-4';
   onWin: () => void;
   onLose: () => void;
-  onSkip: () => void;
+  onSkip?: () => void;
 }
 
-export default function LevelPlayScreen({ levelNumber, gameId = GAME_IDS.DEFAULT, onWin, onLose, onSkip }: LevelPlayScreenProps) {
-  const [isVisible, setIsVisible] = useState(false);
-  const LevelComponent = getLevelComponent(levelNumber, gameId);
-  const bgConfig = getLevelBackground(levelNumber, gameId);
-
-  const isPromises100 = gameId === GAME_IDS.PROMISES_100;
+export default function LevelPlayScreen({ levelNumber, gameEventId, onWin, onLose, onSkip }: LevelPlayScreenProps) {
+  const [key, setKey] = useState(0);
+  const [showHint, setShowHint] = useState(false);
+  
+  const isPromisesKept = gameEventId === 'event-4';
+  const hint = isPromisesKept ? getPromisesKeptHint(levelNumber) : getHintForLevel(levelNumber);
+  const bgConfig = getLevelBackground(levelNumber);
 
   useEffect(() => {
-    setTimeout(() => setIsVisible(true), 100);
+    setKey((prev) => prev + 1);
+    setShowHint(false);
   }, [levelNumber]);
 
-  // Disable skip on final level to prevent navigation issues
-  const canSkip = levelNumber < 100;
+  const LevelComponent = isPromisesKept 
+    ? getPromisesKeptLevelComponent(levelNumber)
+    : getLevelComponent(levelNumber);
 
+  const gameTitle = isPromisesKept 
+    ? '100 Promises I Kept'
+    : 'DPB- THE WORLD OF LOVE FOR MY GIRL';
+
+  const gameSubtitle = isPromisesKept
+    ? 'A calm, emotional journey of love'
+    : 'A journey of love and puzzles';
+
+  // Light romantic theme for Event 4
+  if (isPromisesKept) {
+    return (
+      <div 
+        className="min-h-screen p-4 relative"
+        style={{
+          background: 'linear-gradient(135deg, oklch(0.95 0.03 350) 0%, oklch(0.92 0.04 10) 50%, oklch(0.94 0.03 30) 100%)',
+        }}
+      >
+        {/* Soft romantic pattern overlay */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'url(/assets/generated/romantic-pattern.dim_1024x1024.png)',
+            backgroundSize: '400px 400px',
+            backgroundRepeat: 'repeat',
+            opacity: 0.06,
+            mixBlendMode: 'multiply',
+          }}
+        />
+
+        <div className="max-w-2xl mx-auto py-8 space-y-6 relative z-10">
+          <div className="text-center mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-rose-700 mb-1">
+              {gameTitle}
+            </h1>
+            <p className="text-sm text-rose-600">{gameSubtitle}</p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Heart className="w-6 h-6 text-rose-600 fill-rose-600" />
+              <span className="text-lg font-semibold text-rose-800">
+                Level {levelNumber}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => setShowHint(!showHint)}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 border-rose-300 bg-white/80 text-rose-700 hover:bg-rose-50 backdrop-blur-sm"
+              >
+                {showHint ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showHint ? 'Hide Hint' : 'See Hint'}
+              </Button>
+              {levelNumber < 100 && onSkip && (
+                <Button
+                  onClick={onSkip}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2 border-amber-400 bg-amber-50/80 text-amber-700 hover:bg-amber-100 backdrop-blur-sm"
+                >
+                  <SkipForward className="w-4 h-4" />
+                  Skip
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {showHint && (
+            <Card className="p-4 bg-amber-50/90 border-amber-300 animate-fade-in backdrop-blur-sm">
+              <p className="text-sm text-amber-900">
+                {hint}
+              </p>
+            </Card>
+          )}
+
+          <Card className="p-8 bg-white/90 backdrop-blur-md border-rose-200 shadow-romantic">
+            <LevelComponent key={key} onWin={onWin} onLose={onLose} />
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // Brighter romantic theme for Event 1
   return (
     <div 
-      className="min-h-screen relative overflow-hidden"
+      className="min-h-screen p-4 relative"
       style={{
         background: bgConfig.gradient,
       }}
     >
-      {/* Romantic pattern overlay */}
+      {/* Romantic pattern overlay with dynamic opacity */}
       <div 
-        className="absolute inset-0 z-0 opacity-5"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: 'url(/assets/generated/romantic-pattern.dim_1024x1024.png)',
-          backgroundSize: '400px 400px',
+          backgroundSize: '300px 300px',
           backgroundRepeat: 'repeat',
+          opacity: 0.08,
+          mixBlendMode: 'overlay',
         }}
       />
-
-      {/* Soft readability overlay (non-dark for both games) */}
+      
+      {/* Light overlay for readability */}
       <div 
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: isPromises100
-            ? 'radial-gradient(ellipse at center, transparent 0%, oklch(0.92 0.02 330 / 0.2) 50%, oklch(0.88 0.03 340 / 0.4) 100%)'
-            : 'radial-gradient(ellipse at center, transparent 0%, oklch(0.35 0.08 20 / 0.3) 50%, oklch(0.25 0.10 10 / 0.5) 100%)',
+          background: 'radial-gradient(ellipse at center, oklch(0.98 0.01 350 / 0.3) 0%, transparent 100%)',
+          opacity: bgConfig.overlayOpacity,
         }}
       />
 
-      <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header - Ensure high z-index and proper stacking */}
-        <div className="relative z-50 p-4 flex items-center justify-between bg-gradient-to-b from-black/10 to-transparent">
-          <div className={`font-semibold text-lg drop-shadow-lg ${isPromises100 ? 'text-pink-700' : 'text-orange-100'}`}>
-            Level {levelNumber}
-          </div>
-          <Button
-            onClick={onSkip}
-            variant="ghost"
-            size="sm"
-            disabled={!canSkip}
-            className={`${
-              isPromises100 
-                ? 'text-pink-600 hover:text-pink-700 hover:bg-pink-100/50' 
-                : 'text-orange-200 hover:text-white hover:bg-orange-900/30'
-            } disabled:opacity-30 disabled:cursor-not-allowed font-medium shadow-sm`}
-            title={canSkip ? 'Skip this level' : 'Cannot skip final level'}
-          >
-            <SkipForward className="w-4 h-4 mr-1" />
-            Skip
-          </Button>
+      <div className="max-w-2xl mx-auto py-8 space-y-6 relative z-10">
+        <div className="text-center mb-4">
+          <h1 className="text-xl md:text-2xl font-bold text-rose-700 mb-1 drop-shadow-sm">
+            {gameTitle}
+          </h1>
+          <p className="text-xs text-rose-600">{gameSubtitle}</p>
         </div>
 
-        {/* Level Content */}
-        <div 
-          className={`flex-1 flex items-center justify-center p-4 transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <LevelComponent onWin={onWin} onLose={onLose} />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Heart className="w-6 h-6 text-rose-600 fill-rose-600" />
+            <span className="text-lg font-semibold text-rose-800">
+              Level {levelNumber}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => setShowHint(!showHint)}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2 border-rose-300 bg-white/80 text-rose-700 hover:bg-rose-50 backdrop-blur-sm"
+            >
+              {showHint ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showHint ? 'Hide Hint' : 'See Hint'}
+            </Button>
+            {levelNumber < 100 && onSkip && (
+              <Button
+                onClick={onSkip}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 border-amber-400 bg-amber-50/80 text-amber-700 hover:bg-amber-100 backdrop-blur-sm"
+              >
+                <SkipForward className="w-4 h-4" />
+                Skip
+              </Button>
+            )}
+          </div>
         </div>
+
+        {showHint && (
+          <Card className="p-4 bg-amber-50/90 border-amber-300 animate-fade-in backdrop-blur-sm">
+            <p className="text-sm text-amber-900">
+              {hint}
+            </p>
+          </Card>
+        )}
+
+        <Card className="p-8 bg-white/95 backdrop-blur-md border-rose-200 shadow-romantic">
+          <LevelComponent key={key} onWin={onWin} onLose={onLose} />
+        </Card>
       </div>
     </div>
   );

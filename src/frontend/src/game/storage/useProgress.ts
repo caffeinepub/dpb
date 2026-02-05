@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { loadProgress, saveProgress, markLevelComplete, skipToNextLevel, resetProgressData, type ProgressData } from './progressStorage';
 import { useActor } from '../../hooks/useActor';
-import { type GameId } from '../constants';
 
-export function useProgress(gameId: GameId) {
+export function useProgress() {
   const { actor } = useActor();
-  const [progress, setProgress] = useState<ProgressData>(loadProgress(gameId));
+  const [progress, setProgress] = useState<ProgressData>(loadProgress());
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -14,21 +13,21 @@ export function useProgress(gameId: GameId) {
       setIsLoading(true);
       try {
         if (actor) {
-          const backendState = await actor.getLevelState(gameId);
+          const backendState = await actor.getLevelState();
           const backendProgress: ProgressData = {
             completedLevels: backendState.completedLevels.map(n => Number(n)),
             currentLevel: Number(backendState.lastUnlockedLevel),
             lastUnlockedLevel: Number(backendState.lastUnlockedLevel),
           };
           setProgress(backendProgress);
-          saveProgress(gameId, backendProgress);
+          saveProgress(backendProgress);
         } else {
-          const localProgress = loadProgress(gameId);
+          const localProgress = loadProgress();
           setProgress(localProgress);
         }
       } catch (error) {
         console.error('Failed to load progress:', error);
-        const localProgress = loadProgress(gameId);
+        const localProgress = loadProgress();
         setProgress(localProgress);
       } finally {
         setIsLoading(false);
@@ -36,17 +35,17 @@ export function useProgress(gameId: GameId) {
     };
 
     loadInitialProgress();
-  }, [actor, gameId]);
+  }, [actor]);
 
   const completeLevel = async (levelNumber: number) => {
     setIsSyncing(true);
     try {
-      const newProgress = markLevelComplete(gameId, levelNumber);
+      const newProgress = markLevelComplete(levelNumber);
       setProgress(newProgress);
 
       if (actor) {
         try {
-          await actor.saveCompletedLevel(gameId, BigInt(levelNumber));
+          await actor.saveCompletedLevel(BigInt(levelNumber));
         } catch (error) {
           console.error('Failed to sync with backend:', error);
         }
@@ -59,12 +58,12 @@ export function useProgress(gameId: GameId) {
   const skipLevel = async (levelNumber: number) => {
     setIsSyncing(true);
     try {
-      const newProgress = skipToNextLevel(gameId, levelNumber);
+      const newProgress = skipToNextLevel(levelNumber);
       setProgress(newProgress);
 
       if (actor) {
         try {
-          await actor.unlockLevel(gameId, BigInt(newProgress.lastUnlockedLevel));
+          await actor.unlockLevel(BigInt(newProgress.lastUnlockedLevel));
         } catch (error) {
           console.error('Failed to sync skip with backend:', error);
         }
@@ -77,13 +76,13 @@ export function useProgress(gameId: GameId) {
   const resetProgress = async () => {
     setIsSyncing(true);
     try {
-      resetProgressData(gameId);
-      const defaultProgress = loadProgress(gameId);
+      resetProgressData();
+      const defaultProgress = loadProgress();
       setProgress(defaultProgress);
 
       if (actor) {
         try {
-          await actor.resetProgress(gameId);
+          await actor.resetProgress();
         } catch (error) {
           console.error('Failed to reset backend progress:', error);
         }

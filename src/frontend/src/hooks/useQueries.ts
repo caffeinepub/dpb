@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import { GAME_IDS } from '../game/constants';
-import type { UserProfile } from '../backend';
+import type { LevelState, UserProfile } from '../backend';
 
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();
@@ -38,45 +37,45 @@ export function useSaveCallerUserProfile() {
   });
 }
 
-export function useGetLevelState(gameId: string = GAME_IDS.DEFAULT) {
-  const { actor, isFetching } = useActor();
+export function useGetLevelState() {
+  const { actor, isFetching: actorFetching } = useActor();
 
-  return useQuery({
-    queryKey: ['levelState', gameId],
+  return useQuery<LevelState>({
+    queryKey: ['levelState'],
     queryFn: async () => {
-      if (!actor) return { completedLevels: [], lastUnlockedLevel: BigInt(1) };
-      return actor.getLevelState(gameId);
+      if (!actor) throw new Error('Actor not available');
+      return actor.getLevelState();
     },
-    enabled: !!actor && !isFetching,
+    enabled: !!actor && !actorFetching,
   });
 }
 
-export function useSaveCompletedLevel(gameId: string = GAME_IDS.DEFAULT) {
+export function useSaveCompletedLevel() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (levelNumber: number) => {
       if (!actor) throw new Error('Actor not available');
-      return actor.saveCompletedLevel(gameId, BigInt(levelNumber));
+      return actor.saveCompletedLevel(BigInt(levelNumber));
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['levelState', gameId] });
+      queryClient.invalidateQueries({ queryKey: ['levelState'] });
     },
   });
 }
 
-export function useResetProgress(gameId: string = GAME_IDS.DEFAULT) {
+export function useResetProgress() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => {
       if (!actor) throw new Error('Actor not available');
-      return actor.resetProgress(gameId);
+      return actor.resetProgress();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['levelState', gameId] });
+      queryClient.invalidateQueries({ queryKey: ['levelState'] });
     },
   });
 }

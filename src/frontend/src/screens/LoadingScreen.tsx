@@ -3,13 +3,14 @@ import { Heart } from 'lucide-react';
 
 interface LoadingScreenProps {
   onComplete: () => void;
+  message?: string;
 }
 
-export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
+export default function LoadingScreen({ onComplete, message }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const duration = 5500; // 5.5 seconds for smooth completion
+    const duration = 3000;
     const interval = 30;
     const increment = (interval / duration) * 100;
 
@@ -48,10 +49,8 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
             />
           </div>
           
-          <p className="text-base text-gray-300 leading-relaxed px-4">
-            {progress < 100 
-              ? 'now you are entering in the world of love joy and promises from bunny' 
-              : 'Ready! 💕'}
+          <p className="text-sm text-gray-300 animate-pulse leading-relaxed">
+            {message || (progress < 100 ? 'Preparing your journey...' : 'Ready! 💕')}
           </p>
         </div>
       </div>

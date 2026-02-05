@@ -2,6 +2,10 @@ import { ArrowLeft, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getEventById } from '../game/content/events';
+import DPBEventScreen from './romantic/DPBEventScreen';
+import TogetherForeverEventScreen from './romantic/TogetherForeverEventScreen';
+import LoveLaughsEventScreen from './romantic/LoveLaughsEventScreen';
+import PostUnlockHeader from '../components/layout/PostUnlockHeader';
 
 interface EventDetailScreenProps {
   eventId: string;
@@ -24,6 +28,20 @@ export default function EventDetailScreen({ eventId, onBack }: EventDetailScreen
     );
   }
 
+  // Route to interactive screens
+  if (event.interactive) {
+    if (eventId === 'dpb') {
+      return <DPBEventScreen onBack={onBack} />;
+    }
+    if (eventId === 'together-forever') {
+      return <TogetherForeverEventScreen onBack={onBack} />;
+    }
+    if (eventId === 'event-3') {
+      return <LoveLaughsEventScreen onBack={onBack} />;
+    }
+  }
+
+  // Fallback static romantic letter view (should not be reached for event-3 anymore)
   return (
     <div 
       className="min-h-screen relative overflow-hidden"
@@ -40,8 +58,11 @@ export default function EventDetailScreen({ eventId, onBack }: EventDetailScreen
       />
 
       <div className="relative z-10">
+        {/* Branded header */}
+        <PostUnlockHeader />
+
         {/* Back button */}
-        <div className="p-4">
+        <div className="px-4 pb-4">
           <Button
             onClick={onBack}
             variant="outline"

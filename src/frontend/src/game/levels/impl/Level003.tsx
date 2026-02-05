@@ -51,10 +51,10 @@ export default function Level003({ onWin, onLose }: Level003Props) {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-200">
+        <h2 className="text-2xl font-bold text-rose-800">
           Open the letter
         </h2>
-        <p className="text-sm text-gray-400 mt-2">
+        <p className="text-sm text-rose-600 mt-2">
           (Hint: Hold it gently... 💌)
         </p>
       </div>
@@ -78,7 +78,7 @@ export default function Level003({ onWin, onLose }: Level003Props) {
         </div>
 
         {isPressed && !isOpen && (
-          <div className="w-64 bg-gray-700 rounded-full h-2 overflow-hidden">
+          <div className="w-64 bg-rose-200 rounded-full h-2 overflow-hidden">
             <div
               className="h-full bg-red-600 transition-all duration-150"
               style={{ width: `${(pressTime / 1500) * 100}%` }}
@@ -87,14 +87,14 @@ export default function Level003({ onWin, onLose }: Level003Props) {
         )}
 
         {isOpen && (
-          <div className="bg-gray-800/50 p-6 rounded-xl max-w-md border border-gray-700">
-            <p className="text-gray-200 text-center">
+          <div className="bg-rose-50/80 p-6 rounded-xl max-w-md border border-rose-200">
+            <p className="text-rose-800 text-center">
               You opened it with patience! 💕
             </p>
           </div>
         )}
 
-        <p className="text-center text-sm text-gray-400">
+        <p className="text-center text-sm text-rose-700">
           {isPressed ? 'Keep holding...' : `Attempts: ${attempts}/3`}
         </p>
       </div>

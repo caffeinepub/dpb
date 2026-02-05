@@ -1,0 +1,32 @@
+{
+  "name": "DPB - World of Joy",
+  "short_name": "DPB",
+  "description": "A world of joy for my dikshu - romantic games and promises",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/generated/pwa-icon-192.dim_192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/generated/pwa-icon-512.dim_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/generated/pwa-icon-maskable-512.dim_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["entertainment", "lifestyle"],
+  "screenshots": []
+}

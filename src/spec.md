@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Ensure Event 1 and Event 4 gameplay always provides a visible English “Skip” button to advance to the next level, while keeping the existing flow and progress behavior.
+**Goal:** Replace the Events Hub (post-password unlock) header’s current logo icon with a user-provided uploaded image.
 
 **Planned changes:**
-- In Event 1 (gameId: "default") gameplay UI, show a visible “Skip” button during levels.
-- In Event 4 (gameId: "promises-100") gameplay UI, show a visible “Skip” button during levels.
-- Implement skip behavior to advance to the next level and update the displayed/current level accordingly.
-- Keep the “Skip” button visible on the final level (level 100) but disable it so it cannot be clicked.
+- Add the two uploaded images (`file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`) to the frontend as static assets.
+- Update the post-unlock Events Hub header to remove the existing icon logo and display the selected uploaded image instead.
+- Ensure the new header logo is responsive across common mobile widths (no awkward cropping/overflow).
 
-**User-visible outcome:** When playing Event 1 or Event 4, users can always see a “Skip” button to move past the current level; on level 100 the button is shown but disabled.
+**User-visible outcome:** After entering the password and viewing the Events Hub event list, users see the new uploaded header logo instead of the previous icon, and it displays cleanly on mobile screens.

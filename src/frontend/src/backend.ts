@@ -106,14 +106,24 @@ export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getLevelState(gameId: string): Promise<LevelState>;
-    getUserLevelState(user: Principal, gameId: string): Promise<LevelState>;
+    getLevelState(): Promise<LevelState>;
+    getPromisesKeptLevelState(): Promise<LevelState>;
+    getPromisesKeptUserLevelState(user: Principal): Promise<LevelState>;
+    getQuizLevelState(): Promise<LevelState>;
+    getQuizUserLevelState(user: Principal): Promise<LevelState>;
+    getUserLevelState(user: Principal): Promise<LevelState>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
-    resetProgress(gameId: string): Promise<void>;
+    resetProgress(): Promise<void>;
+    resetPromisesKeptProgress(): Promise<void>;
+    resetQuizProgress(): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
-    saveCompletedLevel(gameId: string, levelNumber: bigint): Promise<LevelState>;
-    unlockLevel(gameId: string, levelNumber: bigint): Promise<LevelState>;
+    saveCompletedLevel(levelNumber: bigint): Promise<LevelState>;
+    savePromisesKeptLevelCompleted(levelNumber: bigint): Promise<LevelState>;
+    saveQuizLevelCompleted(levelNumber: bigint): Promise<LevelState>;
+    unlockLevel(levelNumber: bigint): Promise<LevelState>;
+    unlockPromisesKeptLevel(levelNumber: bigint): Promise<LevelState>;
+    unlockQuizLevel(levelNumber: bigint): Promise<LevelState>;
 }
 import type { UserProfile as _UserProfile, UserRole as _UserRole } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
@@ -174,31 +184,87 @@ export class Backend implements backendInterface {
             return from_candid_UserRole_n4(this._uploadFile, this._downloadFile, result);
         }
     }
-    async getLevelState(arg0: string): Promise<LevelState> {
+    async getLevelState(): Promise<LevelState> {
         if (this.processError) {
             try {
-                const result = await this.actor.getLevelState(arg0);
+                const result = await this.actor.getLevelState();
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getLevelState(arg0);
+            const result = await this.actor.getLevelState();
             return result;
         }
     }
-    async getUserLevelState(arg0: Principal, arg1: string): Promise<LevelState> {
+    async getPromisesKeptLevelState(): Promise<LevelState> {
         if (this.processError) {
             try {
-                const result = await this.actor.getUserLevelState(arg0, arg1);
+                const result = await this.actor.getPromisesKeptLevelState();
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getUserLevelState(arg0, arg1);
+            const result = await this.actor.getPromisesKeptLevelState();
+            return result;
+        }
+    }
+    async getPromisesKeptUserLevelState(arg0: Principal): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPromisesKeptUserLevelState(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPromisesKeptUserLevelState(arg0);
+            return result;
+        }
+    }
+    async getQuizLevelState(): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getQuizLevelState();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getQuizLevelState();
+            return result;
+        }
+    }
+    async getQuizUserLevelState(arg0: Principal): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getQuizUserLevelState(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getQuizUserLevelState(arg0);
+            return result;
+        }
+    }
+    async getUserLevelState(arg0: Principal): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getUserLevelState(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getUserLevelState(arg0);
             return result;
         }
     }
@@ -230,17 +296,45 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async resetProgress(arg0: string): Promise<void> {
+    async resetProgress(): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.resetProgress(arg0);
+                const result = await this.actor.resetProgress();
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.resetProgress(arg0);
+            const result = await this.actor.resetProgress();
+            return result;
+        }
+    }
+    async resetPromisesKeptProgress(): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.resetPromisesKeptProgress();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.resetPromisesKeptProgress();
+            return result;
+        }
+    }
+    async resetQuizProgress(): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.resetQuizProgress();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.resetQuizProgress();
             return result;
         }
     }
@@ -258,31 +352,87 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async saveCompletedLevel(arg0: string, arg1: bigint): Promise<LevelState> {
+    async saveCompletedLevel(arg0: bigint): Promise<LevelState> {
         if (this.processError) {
             try {
-                const result = await this.actor.saveCompletedLevel(arg0, arg1);
+                const result = await this.actor.saveCompletedLevel(arg0);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.saveCompletedLevel(arg0, arg1);
+            const result = await this.actor.saveCompletedLevel(arg0);
             return result;
         }
     }
-    async unlockLevel(arg0: string, arg1: bigint): Promise<LevelState> {
+    async savePromisesKeptLevelCompleted(arg0: bigint): Promise<LevelState> {
         if (this.processError) {
             try {
-                const result = await this.actor.unlockLevel(arg0, arg1);
+                const result = await this.actor.savePromisesKeptLevelCompleted(arg0);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.unlockLevel(arg0, arg1);
+            const result = await this.actor.savePromisesKeptLevelCompleted(arg0);
+            return result;
+        }
+    }
+    async saveQuizLevelCompleted(arg0: bigint): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.saveQuizLevelCompleted(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.saveQuizLevelCompleted(arg0);
+            return result;
+        }
+    }
+    async unlockLevel(arg0: bigint): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.unlockLevel(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.unlockLevel(arg0);
+            return result;
+        }
+    }
+    async unlockPromisesKeptLevel(arg0: bigint): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.unlockPromisesKeptLevel(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.unlockPromisesKeptLevel(arg0);
+            return result;
+        }
+    }
+    async unlockQuizLevel(arg0: bigint): Promise<LevelState> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.unlockQuizLevel(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.unlockQuizLevel(arg0);
             return result;
         }
     }

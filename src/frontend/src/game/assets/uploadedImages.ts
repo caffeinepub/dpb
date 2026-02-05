@@ -1,5 +1,3 @@
-import { type GameId, GAME_IDS } from '../constants';
-
 export const UPLOADED_IMAGES = [
   '1738760735261.jpg',
   '1739242524171.jpg',
@@ -50,9 +48,27 @@ export const UPLOADED_IMAGES = [
   'file_0000000058e052308b0330347469868a_conversation_id=67ea4905-2ee0-8000-b6c4-9d2aed64c0b7_message_id=251faeee-1dd1-4d66-b75b-90f9e19a8244.webp',
 ] as const;
 
-export function getImageForLevel(levelNumber: number, gameId: GameId = GAME_IDS.DEFAULT): string {
-  // Use different offset for different games to get different image sequences
-  const offset = gameId === GAME_IDS.PROMISES_100 ? 23 : 0;
-  const index = ((levelNumber - 1 + offset) % UPLOADED_IMAGES.length);
+export function getImageForLevel(levelNumber: number): string {
+  const index = (levelNumber - 1) % UPLOADED_IMAGES.length;
   return `/assets/${UPLOADED_IMAGES[index]}`;
+}
+
+// Track last used image index per level to avoid immediate repeats
+const lastUsedImageIndex = new Map<number, number>();
+
+export function getRandomImageForSecretLetter(levelNumber: number): string {
+  const lastIndex = lastUsedImageIndex.get(levelNumber);
+  let newIndex: number;
+  
+  // If we have multiple images, avoid the last one used
+  if (UPLOADED_IMAGES.length > 1 && lastIndex !== undefined) {
+    do {
+      newIndex = Math.floor(Math.random() * UPLOADED_IMAGES.length);
+    } while (newIndex === lastIndex);
+  } else {
+    newIndex = Math.floor(Math.random() * UPLOADED_IMAGES.length);
+  }
+  
+  lastUsedImageIndex.set(levelNumber, newIndex);
+  return `/assets/${UPLOADED_IMAGES[newIndex]}`;
 }

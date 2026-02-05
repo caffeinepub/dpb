@@ -1,10 +1,11 @@
 import Map "mo:core/Map";
 import Principal "mo:core/Principal";
-import Text "mo:core/Text";
+import Nat "mo:core/Nat";
+import List "mo:core/List";
 import Runtime "mo:core/Runtime";
-
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
+
 
 
 actor {
@@ -21,7 +22,9 @@ actor {
   };
 
   let userProfiles = Map.empty<Principal, UserProfile>();
-  let userLevelStates = Map.empty<Principal, Map.Map<Text, LevelState>>();
+  let mainEventLevelStates = Map.empty<Principal, LevelState>();
+  let promisesKeptLevelStates = Map.empty<Principal, LevelState>();
+  let quizEventLevelStates = Map.empty<Principal, LevelState>();
 
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
@@ -46,24 +49,34 @@ actor {
     userProfiles.add(caller, profile);
   };
 
-  public shared ({ caller }) func saveCompletedLevel(gameId : Text, levelNumber : Nat) : async LevelState {
+  public shared ({ caller }) func saveCompletedLevel(levelNumber : Nat) : async LevelState {
+    saveLevelState(mainEventLevelStates, levelNumber, caller);
+  };
+
+  public shared ({ caller }) func savePromisesKeptLevelCompleted(levelNumber : Nat) : async LevelState {
+    saveLevelState(promisesKeptLevelStates, levelNumber, caller);
+  };
+
+  public shared ({ caller }) func saveQuizLevelCompleted(levelNumber : Nat) : async LevelState {
+    saveLevelState(quizEventLevelStates, levelNumber, caller);
+  };
+
+  func saveLevelState(stateMap : Map.Map<Principal, LevelState>, levelNumber : Nat, caller : Principal) : LevelState {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can save progress");
     };
 
-    let userGames = switch (userLevelStates.get(caller)) {
-      case (null) { Map.empty<Text, LevelState>() };
-      case (?games) { games };
-    };
-
-    let currentState = switch (userGames.get(gameId)) {
+    let currentState = switch (stateMap.get(caller)) {
       case (null) {
         { completedLevels = []; lastUnlockedLevel = 1 };
       };
       case (?state) { state };
     };
 
-    let newCompletedLevels = currentState.completedLevels.concat([levelNumber]);
+    let completedLevelsList = List.fromArray<Nat>(currentState.completedLevels);
+    completedLevelsList.add(levelNumber);
+    let newCompletedLevels = completedLevelsList.toArray();
+
     let newLastUnlockedLevel = if (levelNumber > currentState.lastUnlockedLevel) {
       levelNumber + 1;
     } else {
@@ -75,84 +88,104 @@ actor {
       lastUnlockedLevel = newLastUnlockedLevel;
     };
 
-    userGames.add(gameId, newState);
-    userLevelStates.add(caller, userGames);
-
+    stateMap.add(caller, newState);
     newState;
   };
 
-  public query ({ caller }) func getLevelState(gameId : Text) : async LevelState {
+  public query ({ caller }) func getLevelState() : async LevelState {
+    getLevelStateForMap(mainEventLevelStates, caller);
+  };
+
+  public query ({ caller }) func getPromisesKeptLevelState() : async LevelState {
+    getLevelStateForMap(promisesKeptLevelStates, caller);
+  };
+
+  public query ({ caller }) func getQuizLevelState() : async LevelState {
+    getLevelStateForMap(quizEventLevelStates, caller);
+  };
+
+  func getLevelStateForMap(stateMap : Map.Map<Principal, LevelState>, caller : Principal) : LevelState {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can get level state");
     };
 
-    switch (userLevelStates.get(caller)) {
+    switch (stateMap.get(caller)) {
       case (null) {
         { completedLevels = []; lastUnlockedLevel = 1 };
       };
-      case (?userGames) {
-        switch (userGames.get(gameId)) {
-          case (null) {
-            { completedLevels = []; lastUnlockedLevel = 1 };
-          };
-          case (?state) { state };
-        };
-      };
+      case (?state) { state };
     };
   };
 
-  public shared ({ caller }) func resetProgress(gameId : Text) : async () {
+  public shared ({ caller }) func resetProgress() : async () {
+    resetProgressForMap(mainEventLevelStates, caller);
+  };
+
+  public shared ({ caller }) func resetPromisesKeptProgress() : async () {
+    resetProgressForMap(promisesKeptLevelStates, caller);
+  };
+
+  public shared ({ caller }) func resetQuizProgress() : async () {
+    resetProgressForMap(quizEventLevelStates, caller);
+  };
+
+  func resetProgressForMap(stateMap : Map.Map<Principal, LevelState>, caller : Principal) {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can reset progress");
     };
 
-    let userGames = switch (userLevelStates.get(caller)) {
-      case (null) { Map.empty<Text, LevelState>() };
-      case (?games) { games };
-    };
-
-    userGames.add(
-      gameId,
+    stateMap.add(
+      caller,
       {
         completedLevels = [];
         lastUnlockedLevel = 1;
       },
     );
-
-    userLevelStates.add(caller, userGames);
   };
 
-  public query ({ caller }) func getUserLevelState(user : Principal, gameId : Text) : async LevelState {
+  public query ({ caller }) func getUserLevelState(user : Principal) : async LevelState {
+    getUserLevelStateForMap(mainEventLevelStates, caller, user);
+  };
+
+  public query ({ caller }) func getPromisesKeptUserLevelState(user : Principal) : async LevelState {
+    getUserLevelStateForMap(promisesKeptLevelStates, caller, user);
+  };
+
+  public query ({ caller }) func getQuizUserLevelState(user : Principal) : async LevelState {
+    getUserLevelStateForMap(quizEventLevelStates, caller, user);
+  };
+
+  func getUserLevelStateForMap(stateMap : Map.Map<Principal, LevelState>, caller : Principal, user : Principal) : LevelState {
     if (not (AccessControl.isAdmin(accessControlState, caller))) {
       Runtime.trap("Unauthorized: Only admins can view other users' level states");
     };
 
-    switch (userLevelStates.get(user)) {
+    switch (stateMap.get(user)) {
       case (null) {
         { completedLevels = []; lastUnlockedLevel = 1 };
       };
-      case (?userGames) {
-        switch (userGames.get(gameId)) {
-          case (null) {
-            { completedLevels = []; lastUnlockedLevel = 1 };
-          };
-          case (?state) { state };
-        };
-      };
+      case (?state) { state };
     };
   };
 
-  public shared ({ caller }) func unlockLevel(gameId : Text, levelNumber : Nat) : async LevelState {
+  public shared ({ caller }) func unlockLevel(levelNumber : Nat) : async LevelState {
+    unlockLevelForMap(mainEventLevelStates, levelNumber, caller);
+  };
+
+  public shared ({ caller }) func unlockPromisesKeptLevel(levelNumber : Nat) : async LevelState {
+    unlockLevelForMap(promisesKeptLevelStates, levelNumber, caller);
+  };
+
+  public shared ({ caller }) func unlockQuizLevel(levelNumber : Nat) : async LevelState {
+    unlockLevelForMap(quizEventLevelStates, levelNumber, caller);
+  };
+
+  func unlockLevelForMap(stateMap : Map.Map<Principal, LevelState>, levelNumber : Nat, caller : Principal) : LevelState {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can unlock levels");
     };
 
-    let userGames = switch (userLevelStates.get(caller)) {
-      case (null) { Map.empty<Text, LevelState>() };
-      case (?games) { games };
-    };
-
-    let currentState = switch (userGames.get(gameId)) {
+    let currentState = switch (stateMap.get(caller)) {
       case (null) {
         { completedLevels = []; lastUnlockedLevel = 1 };
       };
@@ -164,10 +197,7 @@ actor {
       lastUnlockedLevel = levelNumber;
     };
 
-    userGames.add(gameId, newState);
-    userLevelStates.add(caller, userGames);
-
+    stateMap.add(caller, newState);
     newState;
   };
 };
-

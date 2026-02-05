@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { checkPassword, unlockPassword } from '../game/storage/passwordGate';
 import RomanticDecor from '../components/decor/RomanticDecor';
+import InstallHeartButton from '../components/pwa/InstallHeartButton';
 
 interface LandingScreenProps {
   onSuccess: () => void;
@@ -40,6 +41,11 @@ export default function LandingScreen({ onSuccess }: LandingScreenProps) {
       {/* Subtle vignette effect */}
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-black/40 to-black/80" />
       
+      {/* Install heart button - positioned in top right */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
+        <InstallHeartButton />
+      </div>
+
       {/* Content container */}
       <div className="relative z-10 w-full max-w-md space-y-6 sm:space-y-8">
         {/* Main heading with lock indicator */}

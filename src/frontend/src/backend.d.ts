@@ -23,12 +23,22 @@ export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getLevelState(gameId: string): Promise<LevelState>;
-    getUserLevelState(user: Principal, gameId: string): Promise<LevelState>;
+    getLevelState(): Promise<LevelState>;
+    getPromisesKeptLevelState(): Promise<LevelState>;
+    getPromisesKeptUserLevelState(user: Principal): Promise<LevelState>;
+    getQuizLevelState(): Promise<LevelState>;
+    getQuizUserLevelState(user: Principal): Promise<LevelState>;
+    getUserLevelState(user: Principal): Promise<LevelState>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
-    resetProgress(gameId: string): Promise<void>;
+    resetProgress(): Promise<void>;
+    resetPromisesKeptProgress(): Promise<void>;
+    resetQuizProgress(): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
-    saveCompletedLevel(gameId: string, levelNumber: bigint): Promise<LevelState>;
-    unlockLevel(gameId: string, levelNumber: bigint): Promise<LevelState>;
+    saveCompletedLevel(levelNumber: bigint): Promise<LevelState>;
+    savePromisesKeptLevelCompleted(levelNumber: bigint): Promise<LevelState>;
+    saveQuizLevelCompleted(levelNumber: bigint): Promise<LevelState>;
+    unlockLevel(levelNumber: bigint): Promise<LevelState>;
+    unlockPromisesKeptLevel(levelNumber: bigint): Promise<LevelState>;
+    unlockQuizLevel(levelNumber: bigint): Promise<LevelState>;
 }

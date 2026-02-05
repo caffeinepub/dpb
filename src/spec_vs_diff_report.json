@@ -1,37 +1,46 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T08:52:33.055Z",
-  "summary": "REQ-17 appears implemented by adding a consistently visible \"Skip\" button to gameplay (LevelPlayScreen) with disabled state on level 100 and wiring a defensive guard in App-level skip handler. However, the diff also includes unrelated password-locking behavior changes in App.tsx that were not requested.",
-  "missing_requirements": [],
+  "generatedAt": "2026-02-05T19:03:14.414Z",
+  "summary": "PostUnlockHeader was changed to render an <img> logo pointing at /assets/file_000000007b7c7206b4fb54a3c1ce9985.png with responsive sizing, but the diff does not add the required uploaded image assets to the frontend, and it introduces additional decorative UI/styling not requested (background flourish, gradients, hearts, subtitle).",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Add the two uploaded image files to the frontend static assets and reference the selected one from the post-unlock header component. Uploaded files: `file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`.",
+      "reason": "The diff shows no added asset files (\"Added: 0\" / \"ADDED FILES: none\"), so there is no evidence the uploaded images were actually added as static frontend assets. Only a reference path was added in the header.",
+      "evidence": [
+        "<file-diff> ADDED FILES: none",
+        "frontend/src/components/layout/PostUnlockHeader.tsx"
+      ]
+    }
+  ],
   "hallucinated_features": [
     {
-      "description": "Force app to always start password-locked by clearing persisted unlock state on mount (lockPassword in useEffect) and managing new isPasswordUnlocked state/render gating.",
-      "reason": "BuildRequest only asked to ensure Skip is available in Event 1 and Event 4 gameplay; it explicitly constrained keeping existing flow/persistence behavior intact and did not request password gate behavior changes.",
+      "description": "Added a decorative background flourish image and gradient overlay behind the header content (references /assets/generated/romantic-header-flourish.dim_1200x300.png).",
+      "reason": "Not requested by REQ-1/REQ-2; request was limited to replacing the header logo.",
       "evidence": [
-        "frontend/src/App.tsx"
+        "frontend/src/components/layout/PostUnlockHeader.tsx"
       ]
     },
     {
-      "description": "Add defensive guard in skip handler to prevent skipping at/after level 100 at the App level (in addition to UI disabled state).",
-      "reason": "REQ-17 requires skip be disabled on level 100 (UI disabled is sufficient); adding programmatic guard is additional behavior not explicitly requested.",
+      "description": "Added pulsing heart icons around the heading via lucide-react and additional romantic subtitle text (“A world of love, joy & promises”).",
+      "reason": "Not requested; the non-goals explicitly discourage changing content beyond the header logo replacement.",
       "evidence": [
-        "frontend/src/App.tsx"
+        "frontend/src/components/layout/PostUnlockHeader.tsx"
       ]
     },
     {
-      "description": "Add tooltip/title text on the Skip button (\"Skip this level\" / \"Cannot skip final level\") and additional styling/overlay changes in gameplay screen.",
-      "reason": "REQ-17 only specifies a visible English \"Skip\" button with correct skip/disabled behavior; tooltips and extra UI changes were not requested.",
+      "description": "Added animated glow/pulse styling around the logo container (blur, animate-pulse, drop-shadow).",
+      "reason": "Not requested; styling changes beyond making the logo responsive were not part of requirements.",
       "evidence": [
-        "frontend/src/screens/LevelPlayScreen.tsx"
+        "frontend/src/components/layout/PostUnlockHeader.tsx"
       ]
     }
   ],
   "confidence": 0.74,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/App.tsx",
-    "frontend/src/screens/LevelPlayScreen.tsx",
+    "frontend/src/components/layout/PostUnlockHeader.tsx",
     "project_state.json"
   ]
 }

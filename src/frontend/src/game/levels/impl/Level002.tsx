@@ -42,10 +42,10 @@ export default function Level002({ onWin, onLose }: Level002Props) {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-200">
+        <h2 className="text-2xl font-bold text-rose-800">
           Make it night
         </h2>
-        <p className="text-sm text-gray-400 mt-2">
+        <p className="text-sm text-rose-600 mt-2">
           (Hint: Drag the sun down! 🌅)
         </p>
       </div>

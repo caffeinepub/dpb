@@ -33,15 +33,15 @@ export default function Level001({ onWin, onLose }: Level001Props) {
         onClick={handleInstructionClick}
         className="text-center cursor-pointer hover:scale-105 transition-transform"
       >
-        <h2 className="text-2xl font-bold text-gray-200">
+        <h2 className="text-2xl font-bold text-rose-800">
           Tap the heart
         </h2>
-        <p className="text-sm text-gray-400 mt-2">
+        <p className="text-sm text-rose-600 mt-2">
           (Hint: Think differently! 💭)
         </p>
       </div>
 
-      <div className="relative w-full h-96 bg-gray-800/50 rounded-xl border-2 border-gray-700">
+      <div className="relative w-full h-96 bg-rose-50/50 rounded-xl border-2 border-rose-200">
         <div
           ref={heartRef}
           onClick={handleHeartClick}
@@ -56,7 +56,7 @@ export default function Level001({ onWin, onLose }: Level001Props) {
         </div>
       </div>
 
-      <p className="text-center text-sm text-gray-400">
+      <p className="text-center text-sm text-rose-700">
         Attempts: {attempts}/3
       </p>
     </div>

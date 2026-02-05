@@ -1,22 +1,13 @@
 import { type ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
-import { Lock } from 'lucide-react';
-import { lockPassword } from '../../game/storage/passwordGate';
+import InstallBanner from '../pwa/InstallBanner';
 
 interface PortraitFrameProps {
   children: ReactNode;
   showPattern?: boolean;
-  onRelock?: () => void;
+  showInstallUI?: boolean;
 }
 
-export default function PortraitFrame({ children, showPattern = true, onRelock }: PortraitFrameProps) {
-  const handleRelock = () => {
-    lockPassword();
-    if (onRelock) {
-      onRelock();
-    }
-  };
-
+export default function PortraitFrame({ children, showPattern = true, showInstallUI = false }: PortraitFrameProps) {
   return (
     <div className="min-h-screen w-full bg-black">
       <div 
@@ -29,20 +20,8 @@ export default function PortraitFrame({ children, showPattern = true, onRelock }
           opacity: 0.95,
         } : undefined}
       >
-        {onRelock && (
-          <div className="absolute top-4 right-4 z-50">
-            <Button
-              onClick={handleRelock}
-              variant="outline"
-              size="sm"
-              className="bg-gray-900/90 backdrop-blur-sm border-gray-700 hover:bg-gray-800 text-gray-300"
-            >
-              <Lock className="w-4 h-4 mr-2" />
-              Relock
-            </Button>
-          </div>
-        )}
         {children}
+        {showInstallUI && <InstallBanner />}
       </div>
     </div>
   );

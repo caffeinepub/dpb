@@ -1,36 +1,54 @@
 {
   "kind": "build_request",
-  "title": "Ensure Skip Level button is available in Event 1 and Event 4 gameplay",
+  "title": "Replace post-unlock events header logo with uploaded image",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-17",
-      "text": "When the user starts Event 1 (gameId: \"default\") or Event 4 (gameId: \"promises-100\"), ensure gameplay always shows a visible \"Skip\" button that allows the user to skip the current level and advance progress to the next level (except on the final level where skipping is disabled).",
+      "id": "REQ-1",
+      "text": "Update the post-password Events Hub header (the header shown on the events list screen after entering the password) to remove the current logo icon and use the user-provided uploaded image as the header logo instead.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3"
+          "recent-messages-3",
+          "recent-messages-5"
         ],
         "quotes": [
-          "In event 1 \nAnd even 4\nPlease add the skip button in it so if user can not do the level  user could skip that"
+          "The logo you used inside the \nIs not looking good \nRemove that logo icon \n\nAnd add this there",
+          "Use this image as a header logo\nIn the interface which comes after the puting the password and where all the events exists"
         ]
       },
       "acceptanceCriteria": [
-        "Starting Event 1 opens gameplay and displays a visible \"Skip\" button.",
-        "Starting Event 4 opens gameplay and displays a visible \"Skip\" button.",
-        "Clicking \"Skip\" in either event advances the game to the next level (i.e., the displayed level number increments and the next level is playable).",
-        "On level 100, the \"Skip\" button remains visible but is disabled (cannot be clicked).",
-        "All user-facing text for the button is in English (\"Skip\")."
+        "On the Events Hub screen (events list after password unlock), the header no longer displays the existing icon logo image currently used in the header.",
+        "The header displays the uploaded image as the logo in its place.",
+        "The logo remains responsive (does not overflow/crop awkwardly) across common mobile widths."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add the two uploaded image files to the frontend static assets and reference the selected one from the post-unlock header component. Uploaded files: `file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-messages-5"
+        ],
+        "quotes": [
+          "Use this image as a header logo"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Both uploaded images are present in the frontend as static assets (served by the frontend, not via backend).",
+        "The post-unlock header component references the chosen uploaded image via a stable static path (no broken image link in production build)."
       ]
     }
   ],
   "constraints": [
-    "Do not edit any files under frontend/src/components/ui (read-only Shadcn components).",
-    "Keep the existing single-screen flow (Events hub -> gameplay) and existing progress persistence behavior intact."
+    "Backend must remain a single Motoko actor in `backend/main.mo` (no additional backend services).",
+    "Do not edit any files under `frontend/src/components/ui` or other paths listed in `frontend.immutablePaths`.",
+    "Use English for any user-facing text changed or added as part of this request."
   ],
   "nonGoals": [
-    "Do not add new events or change event content beyond ensuring skip is available for Event 1 and Event 4 gameplay.",
-    "Do not change the level designs or add new puzzle mechanics."
+    "Fixing/diagnosing the platform configuration/build error (requires Caffeine team assistance).",
+    "Changing any event content, password logic, or game mechanics beyond the header logo replacement."
   ],
   "imageRequirements": {
     "required": [],

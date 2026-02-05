@@ -1,6 +1,3 @@
-import { type GameId, GAME_IDS } from '../constants';
-import { getPromises100WinLetter, type Promises100WinLetter } from '../promises100/content/winLetters';
-
 export interface WinLetter {
   loveLetter: string;
   promiseLetter: string;
@@ -409,17 +406,6 @@ export const WIN_LETTERS: Record<number, WinLetter> = {
   },
 };
 
-function convertPromises100ToWinLetter(promises100Letter: Promises100WinLetter): WinLetter {
-  return {
-    loveLetter: promises100Letter.loveLetter,
-    promiseLetter: promises100Letter.promise
-  };
-}
-
-export function getWinLetterForLevel(levelNumber: number, gameId: GameId = GAME_IDS.DEFAULT): WinLetter {
-  if (gameId === GAME_IDS.PROMISES_100) {
-    const promises100Letter = getPromises100WinLetter(levelNumber);
-    return convertPromises100ToWinLetter(promises100Letter);
-  }
+export function getWinLetterForLevel(levelNumber: number): WinLetter {
   return WIN_LETTERS[levelNumber] || WIN_LETTERS[1];
 }

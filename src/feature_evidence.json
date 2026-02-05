@@ -2,11 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-when-the-user-starts-event-1-gameid-default-or-event-4-gameid-promises-100-ensure-gameplay-always-shows-a-visible-skip-button-that-allows-the-user-to-skip-the-current-level-and-advance-progress-to-the-next-level-except-on-the-final-level-where-skipping-is-disabled",
-      "featureTitle": "When the user starts Event 1 (gameId: \"default\") or Event 4 (gameId: \"promises-100\"), ensure gameplay always shows a visible \"Skip\" button that allows the user to skip the current level and advance progress to the next level (except on the final level where skipping is disabled).",
+      "featureId": "feature-update-the-post-password-events-hub-header-the-header-shown-on-the-events-list-screen-after-entering-the-password-to-remove-the-current-logo-icon-and-use-the-user-provided-uploaded-image-as-the-header-logo-instead",
+      "featureTitle": "Update the post-password Events Hub header (the header shown on the events list screen after entering the password) to remove the current logo icon and use the user-provided uploaded image as the header logo instead.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/screens/LevelPlayScreen.tsx"
+        "frontend/src/components/layout/PostUnlockHeader.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -17,7 +16,26 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-17"
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-the-two-uploaded-image-files-to-the-frontend-static-assets-and-reference-the-selected-one-from-the-post-unlock-header-component-uploaded-files-file-000000007b7c7206b4fb54a3c1ce9985-png-file-00000000b7ac720681a2c7cc9dc00ef9-1-jpg",
+      "featureTitle": "Add the two uploaded image files to the frontend static assets and reference the selected one from the post-unlock header component. Uploaded files: `file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`.",
+      "files": [
+        "frontend/src/components/layout/PostUnlockHeader.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
       ],
       "confidence": "high"
     }
