@@ -1,0 +1,298 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 86,
+  "summary": "Password-gated romantic Brain Test–style puzzle game (DPB) with EXACTLY 100 handcrafted portrait levels, permanent progress saving, per-level win images + unique Love/Promise letters, plus hidden hints and a skip-level option; sample levels 1–3 are implemented, while most remaining levels still need full authored/interactive implementations (now protected against accidental auto-wins).",
+  "existing_features": [
+    {
+      "id": "IF-1",
+      "title": "Password-gated entry (exact password)",
+      "synonyms": [
+        "Password gate",
+        "App entry gate"
+      ],
+      "description": "Blocks all game UI until the user enters the exact password \"dikshubhagat\"; incorrect password shows a non-shaming error and stays on the password screen.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-2",
+      "title": "Post-password loading screen and intro text screen",
+      "synonyms": [
+        "Loading screen",
+        "Intro screen"
+      ],
+      "description": "After correct password entry, shows a loading screen for a few seconds and then displays the exact intro text: \"Now you are entering in world of love and joy from bunny\" before entering gameplay.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-3",
+      "title": "Core screen flow (Password → Loading → Intro → Gameplay → Win/Lose)",
+      "synonyms": [
+        "UI flow",
+        "Navigation flow"
+      ],
+      "description": "Implements the full app flow between password gate, loading, intro, level play, win screen (next level), and lose screen (retry).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-4",
+      "title": "Progress persistence (local) with resume from last unlocked level",
+      "synonyms": [
+        "Save system",
+        "Progress save"
+      ],
+      "description": "Locally persists cleared/unlocked progress and resumes from the last unlocked level on reopen.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-5",
+      "title": "Reusable level/puzzle framework with allowed mechanics",
+      "synonyms": [
+        "Level framework",
+        "Puzzle framework"
+      ],
+      "description": "Defines a reusable level structure (instruction + interactive objects + trick solution + win/fail) using permitted interaction mechanics (tap/drag/long press/multi-touch/hold+drag/timing/UI manipulation).",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-6",
+      "title": "Win screen with per-level deterministic image + unique Love/Promise letters",
+      "synonyms": [
+        "Win UI",
+        "Win content"
+      ],
+      "description": "Win screen includes fade-in, deterministic per-level win image mapping, unique Love Letter (2–4 lines) and Promise Letter (1–2 lines), plus Next Level button.",
+      "reqIds": [
+        "REQ-7",
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-7",
+      "title": "Lose screen with soft shake, cute image, and randomized comforting messages",
+      "synonyms": [
+        "Lose UI",
+        "Retry screen"
+      ],
+      "description": "Lose screen shows a soft shake animation, a cute illustration, and rotates randomized comforting/teasing (non-shaming) messages with retry.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-8",
+      "title": "Sample gameplay implemented end-to-end for Levels 1–3",
+      "synonyms": [
+        "Levels 1-3 implemented",
+        "Sample levels"
+      ],
+      "description": "Level 1: heart runs away; solution requires tapping instruction text. Level 2: drag sun down to make it night. Level 3: long-press to open letter. Includes win/fail logic, win/lose screens, and progress saving.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-9",
+      "title": "Deterministic win-image asset mapping and uploaded images integration",
+      "synonyms": [
+        "Image mapping",
+        "Static asset mapping"
+      ],
+      "description": "Maps uploaded/static win images to levels deterministically via code/data so win screens use attached assets in a documented, repeatable mapping.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-10",
+      "title": "Cohesive romantic minimal visual theme (portrait frame)",
+      "synonyms": [
+        "Theme",
+        "Visual direction"
+      ],
+      "description": "Applies a consistent romantic/minimal UI styling and portrait-first layout frame with gentle animations (fade/slide/scale).",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-11",
+      "title": "Hidden per-level hint system (opt-in reveal)",
+      "synonyms": [
+        "See hint button",
+        "Hints"
+      ],
+      "description": "Adds per-level hint content that is hidden by default and only revealed when the player taps a \"See hint\" control during gameplay.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-12",
+      "title": "Skip Level option (advance without solving)",
+      "synonyms": [
+        "Skip button",
+        "Skip current level"
+      ],
+      "description": "Adds a Skip Level button that advances the player to the next level without solving the current one while keeping overall flow and progress behavior consistent.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-13",
+      "title": "Fixed-puzzle level renderer uses proper React component rendering + fail-closed for unsupported puzzles",
+      "synonyms": [
+        "FixedPuzzleLevel JSX render",
+        "Remove generic Solve auto-win"
+      ],
+      "description": "Updates the fixed-puzzle wrapper so it renders as a proper React component (ensuring hooks/state/UI render reliably) and removes/disabled the generic fallback \"Solve\" button that previously triggered an unintended immediate win for unsupported solution types; missing implementations now surface clearly instead of silently winning.",
+      "reqIds": [
+        "REQ-13",
+        "REQ-15",
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-14",
+      "title": "Events hub + event detail screens (romantic memories content)",
+      "synonyms": [
+        "Events gallery",
+        "Memories hub",
+        "Events screens"
+      ],
+      "description": "Adds an Events Hub screen and Event Detail screen with authored romantic event content and generated event photos, integrated into the React app navigation.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-15",
+      "title": "Alternate \"Promises100\" game module with separate level configs and win/lose content",
+      "synonyms": [
+        "Promises100 mode",
+        "Alternate level pack"
+      ],
+      "description": "Adds a parallel Promises100 game module under `frontend/src/game/promises100/` with its own level config registry, Promises100Level renderer, and dedicated winLetters/loseMessages content, enabling an alternate level-pack/content set alongside the main DPB levels.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "feature-when-the-user-starts-event-1-gameid-default-or-event-4-gameid-promises-100-ensure-gameplay-always-shows-a-visible-skip-button-that-allows-the-user-to-skip-the-current-level-and-advance-progress-to-the-next-level-except-on-the-final-level-where-skipping-is-disabled",
+      "title": "When the user starts Event 1 (gameId: \"default\") or Event 4 (gameId: \"promises-100\"), ensure gameplay always shows a visible \"Skip\" button that allows the user to skip the current level and advance progress to the next level (except on the final level where skipping is disabled).",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-3",
+      "summary": "Core game: Unity 2D portrait Brain Test–style puzzle game with EXACTLY 100 fixed (non-random) levels and romantic/clever minimal tone",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Initial delivery: provide full architecture, implement Level Manager + save system, UI flow, and fully implement sample levels 1–3",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Create the core game architecture for a Brain Test–style puzzle game with EXACTLY 100 fixed (non-random) levels, portrait-first layout, and a minimal, clever, romantic tone (not childish).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Produce a complete authored content plan for all 100 levels that follows the fixed difficulty distribution (1–10, 11–20, …, 91–100) and includes, for each level: instruction text, objects involved, the hidden trick solution description, win condition, fail condition, plus a unique Love Letter and Promise Letter. Use English for all user-facing text in the app.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Implement Levels 4–100 with full interactive puzzle UI (2–6 objects, trick solution, clear win/fail) matching the quality/structure of Levels 1–3; remove any \"level is coming\" placeholders",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Rewrite/update all Win-screen Love Letters and Promise Letters to be highly specific/personalized using provided relationship details (Dikshita/“chiuuu”, Bunny/“chotu”, likes: sleep, momos, Aditya Roy Kapoor, Galaxy chocolates, Netflix & chill, badminton; family names), while keeping lose messages unchanged",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Implement complete solving interfaces in the fixed-puzzle framework for all solution types used by Levels 8–100 in `frontend/src/game/levels/impl/levelConfigs.ts`, matching the quality and interaction style of Levels 1–3 (clear objects, clear interaction, win/lose behavior).",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-26",
+      "summary": "Add a visible Skip button in Event 1 and Event 4 gameplay so users can skip the current level and advance to the next level if they can’t solve it.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "architectural_notes": [
+    "Exactly 100 handcrafted levels; no infinite/random levels; avoid repeated logic bugs",
+    "Progress persistence required: cleared levels permanently saved (PlayerPrefs/local) and resume from last unlocked on app reopen",
+    "Visual/audio direction: clean soft colors, cute but not childish; smooth animations (fade/slide/scale); no loud cartoon sounds",
+    "Win screen per level must show a unique attached image + unique Love Letter and Promise Letter; Next Level button",
+    "Lose screen uses soft shake + cute image + randomized comforting messages",
+    "Implementation uses a React/Vite frontend with a Motoko backend template (not Unity/C#).",
+    "Level implementation is component-based (Level001–Level003) with a shared level play screen and per-level win/lose routing.",
+    "Deterministic mapping tables exist for win images and per-level win letters (Love/Promise) plus a shared lose-message pool.",
+    "ICP/Internet Identity and canister actor hooks/scaffolding added (useInternetIdentity/useActor/useQueries) alongside Motoko authorization/access-control modules.",
+    "Project includes an ICP deployable build-template (Dockerfile, icp.yaml, deploy scripts) plus shadcn/ui scaffolding and image resize/prune pipeline scripts for consistent UI + asset handling."
+  ],
+  "known_issues": [
+    "Tech stack/platform mismatch vs original Unity 2D Android/iOS requirement (current implementation is React/Motoko template).",
+    "Only Levels 1–3 are fully implemented; remaining levels/content plan for 4–100 not yet authored/implemented.",
+    "Most levels beyond 1–3 still require full authored interactive puzzle implementations (objects, interactions, win/fail) even if configs/content exist."
+  ],
+  "isFixRequest": false,
+  "generatedImages": [
+    {
+      "filename": "frontend/public/assets/generated/favicon.dim_32x32.png",
+      "description": "Generated favicon asset.",
+      "targetWidth": 32,
+      "targetHeight": 32
+    },
+    {
+      "filename": "frontend/public/assets/generated/logo-icon.dim_512x512.png",
+      "description": "Generated logo icon asset.",
+      "targetWidth": 512,
+      "targetHeight": 512
+    }
+  ],
+  "gameProjectType": "2d",
+  "projectName": "DPB",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

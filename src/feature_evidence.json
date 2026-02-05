@@ -1,0 +1,25 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-when-the-user-starts-event-1-gameid-default-or-event-4-gameid-promises-100-ensure-gameplay-always-shows-a-visible-skip-button-that-allows-the-user-to-skip-the-current-level-and-advance-progress-to-the-next-level-except-on-the-final-level-where-skipping-is-disabled",
+      "featureTitle": "When the user starts Event 1 (gameId: \"default\") or Event 4 (gameId: \"promises-100\"), ensure gameplay always shows a visible \"Skip\" button that allows the user to skip the current level and advance progress to the next level (except on the final level where skipping is disabled).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/screens/LevelPlayScreen.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-17"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

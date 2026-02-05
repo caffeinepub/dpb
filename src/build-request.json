@@ -1,0 +1,39 @@
+{
+  "kind": "build_request",
+  "title": "Ensure Skip Level button is available in Event 1 and Event 4 gameplay",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-17",
+      "text": "When the user starts Event 1 (gameId: \"default\") or Event 4 (gameId: \"promises-100\"), ensure gameplay always shows a visible \"Skip\" button that allows the user to skip the current level and advance progress to the next level (except on the final level where skipping is disabled).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "In event 1 \nAnd even 4\nPlease add the skip button in it so if user can not do the level  user could skip that"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Starting Event 1 opens gameplay and displays a visible \"Skip\" button.",
+        "Starting Event 4 opens gameplay and displays a visible \"Skip\" button.",
+        "Clicking \"Skip\" in either event advances the game to the next level (i.e., the displayed level number increments and the next level is playable).",
+        "On level 100, the \"Skip\" button remains visible but is disabled (cannot be clicked).",
+        "All user-facing text for the button is in English (\"Skip\")."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit any files under frontend/src/components/ui (read-only Shadcn components).",
+    "Keep the existing single-screen flow (Events hub -> gameplay) and existing progress persistence behavior intact."
+  ],
+  "nonGoals": [
+    "Do not add new events or change event content beyond ensuring skip is available for Event 1 and Event 4 gameplay.",
+    "Do not change the level designs or add new puzzle mechanics."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
