@@ -132,7 +132,7 @@ export default function App() {
   // This is the ONLY render path when password is locked
   if (!isPasswordUnlocked) {
     return (
-      <PortraitFrame showPattern={false} showInstallUI={true}>
+      <PortraitFrame showPattern={false} showInstallUI={false}>
         <LandingScreen onSuccess={handlePasswordSuccess} />
       </PortraitFrame>
     );

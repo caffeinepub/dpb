@@ -1,53 +1,6 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Replace Events Hub post-unlock header logo with uploaded image",
-  "requirements": [
-    {
-      "id": "REQ-1",
-      "summary": "Replace the existing post-unlock Events Hub header logo icon with the user-uploaded image and keep it responsive on mobile.",
-      "acceptanceCriteria": [
-        "On the Events Hub screen (events list after password unlock), the header no longer displays the existing icon logo image currently used in the header.",
-        "The header displays the uploaded image as the logo in its place.",
-        "The logo remains responsive (does not overflow/crop awkwardly) across common mobile widths."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/layout/PostUnlockHeader.tsx",
-          "operation": "modify",
-          "description": "Update the header logo rendering to remove the current generated logo icon and instead use the chosen uploaded static asset image (referenced via a stable path under frontend/public). Ensure responsive sizing (e.g., constrained max width/height, object-contain, and appropriate wrapping) so it scales cleanly on common mobile widths without awkward cropping or overflow."
-        },
-        {
-          "path": "frontend/src/screens/EventsHubScreen.tsx",
-          "operation": "modify",
-          "description": "Verify the Events Hub continues to use PostUnlockHeader and that no other logo/icon is redundantly displayed in the header area after the PostUnlockHeader change (no functional change expected; adjust only if needed to prevent duplicate header branding)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Add the two uploaded images to frontend static assets and reference the selected one from the post-unlock header.",
-      "acceptanceCriteria": [
-        "Both uploaded images are present in the frontend as static assets (served by the frontend, not via backend).",
-        "The post-unlock header component references the chosen uploaded image via a stable static path (no broken image link in production build)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/uploaded/file_000000007b7c7206b4fb54a3c1ce9985.png",
-          "operation": "create",
-          "description": "Add the uploaded PNG as a frontend static asset so it can be referenced by a stable path from the UI."
-        },
-        {
-          "path": "frontend/public/assets/uploaded/file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg",
-          "operation": "create",
-          "description": "Add the uploaded JPG as a frontend static asset so it can be referenced by a stable path from the UI."
-        },
-        {
-          "path": "frontend/src/components/layout/PostUnlockHeader.tsx",
-          "operation": "modify",
-          "description": "Reference the selected uploaded header logo image from a stable static path (e.g., under frontend/public/assets/uploaded/...) and ensure the img alt text remains in English."
-        }
-      ]
-    }
-  ]
+  "title": "Untitled request",
+  "requirements": []
 }

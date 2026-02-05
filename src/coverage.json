@@ -1,48 +1,27 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T19:03:14.417Z",
+  "generatedAt": "2026-02-05T19:33:14.298Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
-    "items": [
-      {
-        "id": "REQ-1",
-        "summary": "Update the post-password Events Hub header (the header shown on the events list screen after entering the password) to remove the current logo icon and use the user-provided uploaded image as the header logo instead.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/layout/PostUnlockHeader.tsx",
-          "frontend/src/screens/EventsHubScreen.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/layout/PostUnlockHeader.tsx"
-        ]
-      },
-      {
-        "id": "REQ-2",
-        "summary": "Add the two uploaded image files to the frontend static assets and reference the selected one from the post-unlock header component. Uploaded files: `file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/assets/uploaded/file_000000007b7c7206b4fb54a3c1ce9985.png",
-          "frontend/public/assets/uploaded/file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg",
-          "frontend/src/components/layout/PostUnlockHeader.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/layout/PostUnlockHeader.tsx"
-        ]
-      }
-    ]
+    "total": 0,
+    "implemented": 0,
+    "items": []
   },
   "changedFiles": [
+    "backend/main.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/layout/PostUnlockHeader.tsx",
+    "frontend/src/components/pwa/InstallHeartButton.tsx",
+    "frontend/src/game/storage/useProgress.ts",
+    "frontend/src/game/storage/usePromisesKeptProgress.ts",
+    "frontend/src/game/storage/useQuizProgress.ts",
+    "frontend/src/screens/LandingScreen.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

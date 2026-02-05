@@ -97,7 +97,16 @@ export function useProgress() {
   };
 
   const isLevelUnlocked = (levelNumber: number): boolean => {
-    return levelNumber <= progress.lastUnlockedLevel;
+    // Level is unlocked if:
+    // 1. It's level 1 (always unlocked)
+    // 2. It's within the lastUnlockedLevel range
+    // 3. The previous level has been completed
+    if (levelNumber === 1) return true;
+    if (levelNumber > progress.lastUnlockedLevel) return false;
+    
+    // Additional check: previous level must be completed
+    const previousLevelCompleted = progress.completedLevels.includes(levelNumber - 1);
+    return levelNumber <= progress.lastUnlockedLevel && (levelNumber === progress.lastUnlockedLevel || previousLevelCompleted);
   };
 
   return {

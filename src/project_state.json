@@ -1,39 +1,31 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
-  "architectural_notes": [],
+  "summary": "Game/app with an install button UI and multiple games/levels; user requests a permanent heart-shaped install button and fixes to level functionality and progression rules.",
+  "architectural_notes": [
+    "Level progression should be gated so a level only unlocks after completing the previous level, respecting win/loss rules."
+  ],
   "known_issues": [
-    "Build/deploy failing due to a configuration error; needs investigation/assistance from the Caffeine team."
+    "Some game levels do not work properly.",
+    "Some levels unlock/open before completing the previous level."
   ],
-  "isFixRequest": false,
-  "existing_features": [
-    {
-      "id": "feature-update-the-post-password-events-hub-header-the-header-shown-on-the-events-list-screen-after-entering-the-password-to-remove-the-current-logo-icon-and-use-the-user-provided-uploaded-image-as-the-header-logo-instead",
-      "title": "Update the post-password Events Hub header (the header shown on the events list screen after entering the password) to remove the current logo icon and use the user-provided uploaded image as the header logo instead.",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-the-two-uploaded-image-files-to-the-frontend-static-assets-and-reference-the-selected-one-from-the-post-unlock-header-component-uploaded-files-file-000000007b7c7206b4fb54a3c1ce9985-png-file-00000000b7ac720681a2c7cc9dc00ef9-1-jpg",
-      "title": "Add the two uploaded image files to the frontend static assets and reference the selected one from the post-unlock header component. Uploaded files: `file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`.",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "version": 1
-    }
-  ],
+  "isFixRequest": true,
+  "existing_features": [],
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Replace/remove current header logo icon and use the provided image as the header logo on the post-password events interface (events list page).",
+      "summary": "Add an install button with a heart shape and keep it permanently visible (not temporary).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Verify and fix all game levels: resolve broken levels, enforce correct level unlock order (no skipping), and ensure win/loss rules work smoothly across all levels.",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Replace post-unlock events header logo with uploaded image",
+  "projectName": "Untitled request",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

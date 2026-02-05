@@ -1,46 +1,65 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T19:03:14.414Z",
-  "summary": "PostUnlockHeader was changed to render an <img> logo pointing at /assets/file_000000007b7c7206b4fb54a3c1ce9985.png with responsive sizing, but the diff does not add the required uploaded image assets to the frontend, and it introduces additional decorative UI/styling not requested (background flourish, gradients, hearts, subtitle).",
-  "missing_requirements": [
-    {
-      "id": "REQ-2",
-      "requirement": "Add the two uploaded image files to the frontend static assets and reference the selected one from the post-unlock header component. Uploaded files: `file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`.",
-      "reason": "The diff shows no added asset files (\"Added: 0\" / \"ADDED FILES: none\"), so there is no evidence the uploaded images were actually added as static frontend assets. Only a reference path was added in the header.",
-      "evidence": [
-        "<file-diff> ADDED FILES: none",
-        "frontend/src/components/layout/PostUnlockHeader.tsx"
-      ]
-    }
-  ],
+  "generatedAt": "2026-02-05T19:33:14.296Z",
+  "summary": "BuildRequest contains no requirements or acceptance criteria, but the diff implements multiple backend/frontend features (authorization, user profiles, level progress syncing, and new PWA install UI).",
+  "missing_requirements": [],
   "hallucinated_features": [
     {
-      "description": "Added a decorative background flourish image and gradient overlay behind the header content (references /assets/generated/romantic-header-flourish.dim_1200x300.png).",
-      "reason": "Not requested by REQ-1/REQ-2; request was limited to replacing the header logo.",
+      "description": "Backend authorization/access-control integration and permission-gated endpoints",
+      "reason": "No requirements were specified in the BuildRequest, yet new authorization logic and permission checks were added.",
       "evidence": [
-        "frontend/src/components/layout/PostUnlockHeader.tsx"
+        "backend/main.mo"
       ]
     },
     {
-      "description": "Added pulsing heart icons around the heading via lucide-react and additional romantic subtitle text (“A world of love, joy & promises”).",
-      "reason": "Not requested; the non-goals explicitly discourage changing content beyond the header logo replacement.",
+      "description": "Backend user profile storage and APIs (get/save caller profile; admin/self access rules)",
+      "reason": "Not requested by the BuildRequest (which has no requirements).",
       "evidence": [
-        "frontend/src/components/layout/PostUnlockHeader.tsx"
+        "backend/main.mo"
       ]
     },
     {
-      "description": "Added animated glow/pulse styling around the logo container (blur, animate-pulse, drop-shadow).",
-      "reason": "Not requested; styling changes beyond making the logo responsive were not part of requirements.",
+      "description": "Backend persistence of multiple level-state tracks (main event, promises kept, quiz) with save/get functions",
+      "reason": "Not requested by the BuildRequest (which has no requirements).",
       "evidence": [
-        "frontend/src/components/layout/PostUnlockHeader.tsx"
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "New heart-shaped PWA install button and install help dialog flow",
+      "reason": "Not requested by the BuildRequest (which has no requirements).",
+      "evidence": [
+        "frontend/src/components/pwa/InstallHeartButton.tsx",
+        "frontend/src/screens/LandingScreen.tsx"
+      ]
+    },
+    {
+      "description": "Frontend hooks to sync level progress with backend actor APIs (main/promises/quiz), including unlocking/reset calls",
+      "reason": "Not requested by the BuildRequest (which has no requirements).",
+      "evidence": [
+        "frontend/src/game/storage/useProgress.ts",
+        "frontend/src/game/storage/usePromisesKeptProgress.ts",
+        "frontend/src/game/storage/useQuizProgress.ts"
+      ]
+    },
+    {
+      "description": "Changes to landing screen UI to include install button placement and updated styling/content",
+      "reason": "Not requested by the BuildRequest (which has no requirements).",
+      "evidence": [
+        "frontend/src/screens/LandingScreen.tsx"
       ]
     }
   ],
-  "confidence": 0.74,
+  "confidence": 0.76,
   "changed_files": [
+    "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/src/components/layout/PostUnlockHeader.tsx",
+    "frontend/src/components/pwa/InstallHeartButton.tsx",
+    "frontend/src/game/storage/useProgress.ts",
+    "frontend/src/game/storage/usePromisesKeptProgress.ts",
+    "frontend/src/game/storage/useQuizProgress.ts",
+    "frontend/src/screens/LandingScreen.tsx",
     "project_state.json"
   ]
 }

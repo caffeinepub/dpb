@@ -1,55 +1,10 @@
 {
   "kind": "build_request",
-  "title": "Replace post-unlock events header logo with uploaded image",
+  "title": "Untitled request",
   "priority": "normal",
-  "requirements": [
-    {
-      "id": "REQ-1",
-      "text": "Update the post-password Events Hub header (the header shown on the events list screen after entering the password) to remove the current logo icon and use the user-provided uploaded image as the header logo instead.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "recent-messages-3",
-          "recent-messages-5"
-        ],
-        "quotes": [
-          "The logo you used inside the \nIs not looking good \nRemove that logo icon \n\nAnd add this there",
-          "Use this image as a header logo\nIn the interface which comes after the puting the password and where all the events exists"
-        ]
-      },
-      "acceptanceCriteria": [
-        "On the Events Hub screen (events list after password unlock), the header no longer displays the existing icon logo image currently used in the header.",
-        "The header displays the uploaded image as the logo in its place.",
-        "The logo remains responsive (does not overflow/crop awkwardly) across common mobile widths."
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Add the two uploaded image files to the frontend static assets and reference the selected one from the post-unlock header component. Uploaded files: `file_000000007b7c7206b4fb54a3c1ce9985.png`, `file_00000000b7ac720681a2c7cc9dc00ef9 (1).jpg`.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "recent-messages-5"
-        ],
-        "quotes": [
-          "Use this image as a header logo"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Both uploaded images are present in the frontend as static assets (served by the frontend, not via backend).",
-        "The post-unlock header component references the chosen uploaded image via a stable static path (no broken image link in production build)."
-      ]
-    }
-  ],
-  "constraints": [
-    "Backend must remain a single Motoko actor in `backend/main.mo` (no additional backend services).",
-    "Do not edit any files under `frontend/src/components/ui` or other paths listed in `frontend.immutablePaths`.",
-    "Use English for any user-facing text changed or added as part of this request."
-  ],
-  "nonGoals": [
-    "Fixing/diagnosing the platform configuration/build error (requires Caffeine team assistance).",
-    "Changing any event content, password logic, or game mechanics beyond the header logo replacement."
-  ],
+  "requirements": [],
+  "constraints": [],
+  "nonGoals": [],
   "imageRequirements": {
     "required": [],
     "edits": []

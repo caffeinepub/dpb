@@ -41,7 +41,7 @@ export default function LandingScreen({ onSuccess }: LandingScreenProps) {
       {/* Subtle vignette effect */}
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-black/40 to-black/80" />
       
-      {/* Install heart button - positioned in top right */}
+      {/* Install button - heart-shaped, positioned in top right, always visible */}
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
         <InstallHeartButton />
       </div>

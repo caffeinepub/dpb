@@ -4,68 +4,48 @@ import { usePwaInstall } from '../../pwa/usePwaInstall';
 import InstallHelpDialog from './InstallHelpDialog';
 
 export default function InstallHeartButton() {
-  const { isInstallable, isIOS, isDismissed, promptInstall, dismiss } = usePwaInstall();
+  const { isInstallable, isStandalone, promptInstall } = usePwaInstall();
   const [showHelpDialog, setShowHelpDialog] = useState(false);
 
-  // Check if already installed/standalone
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
-                       (window.navigator as any).standalone === true;
-
-  // Don't show if dismissed, already installed, or not installable and not iOS
-  if (isDismissed || isStandalone || (!isInstallable && !isIOS)) {
+  // Don't show if already installed/standalone
+  if (isStandalone) {
     return null;
   }
 
   const handleClick = async () => {
-    if (isIOS) {
-      // On iOS, show help dialog
-      setShowHelpDialog(true);
-    } else if (isInstallable) {
-      // On other platforms, trigger install prompt
+    if (isInstallable) {
+      // Native prompt is available - trigger it
       const installed = await promptInstall();
       if (!installed) {
-        // If user dismissed the prompt, show help dialog as fallback
+        // If user dismissed the native prompt, show help dialog as fallback
         setShowHelpDialog(true);
       }
+    } else {
+      // No native prompt available (iOS or other platforms) - show help dialog
+      setShowHelpDialog(true);
     }
-  };
-
-  const handleDismiss = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dismiss();
   };
 
   return (
     <>
+      {/* Heart-shaped install button - always visible, no dismiss */}
       <button
         onClick={handleClick}
         aria-label="Install DPB App"
         className="group relative inline-flex items-center justify-center"
       >
-        {/* Main heart button */}
+        {/* Animated heart with pulsing effect */}
         <div className="relative">
-          <Heart 
-            className="w-12 h-12 sm:w-14 sm:h-14 text-black fill-black transition-transform group-hover:scale-110 group-active:scale-95" 
-          />
-          {/* Subtle glow effect on hover */}
-          <Heart 
-            className="w-12 h-12 sm:w-14 sm:h-14 text-red-600 fill-red-600 absolute top-0 left-0 opacity-0 group-hover:opacity-30 transition-opacity blur-sm" 
-          />
+          <Heart className="w-14 h-14 sm:w-16 sm:h-16 text-red-600 fill-red-600 transition-transform duration-200 group-hover:scale-110 group-active:scale-95 drop-shadow-lg" />
+          <Heart className="w-14 h-14 sm:w-16 sm:h-16 text-red-500 fill-red-500 absolute top-0 left-0 animate-ping opacity-75" />
+          
+          {/* Install text overlay on heart */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-[10px] sm:text-xs font-bold text-white drop-shadow-md leading-tight text-center px-1">
+              Install<br/>App
+            </span>
+          </div>
         </div>
-        
-        {/* Install text label */}
-        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-300 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-          Install App
-        </span>
-
-        {/* Dismiss button (small X) */}
-        <button
-          onClick={handleDismiss}
-          className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gray-800 border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 transition-colors text-xs"
-          aria-label="Dismiss install prompt"
-        >
-          ×
-        </button>
       </button>
 
       <InstallHelpDialog 
