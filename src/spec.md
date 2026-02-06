@@ -1,9 +1,9 @@
 # Specification
 
 ## Summary
-**Goal:** No functional changes requested in this iteration.
+**Goal:** No changes requested (empty BuildRequest).
 
 **Planned changes:**
 - None
 
-**User-visible outcome:** The application remains unchanged.
+**User-visible outcome:** No user-visible changes in this iteration.

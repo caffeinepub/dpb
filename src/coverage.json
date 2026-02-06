@@ -1,7 +1,7 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T19:33:14.298Z",
+  "generatedAt": "2026-02-06T14:02:44.910Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
@@ -12,16 +12,11 @@
     "items": []
   },
   "changedFiles": [
-    "backend/main.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/pwa/InstallHeartButton.tsx",
-    "frontend/src/game/storage/useProgress.ts",
-    "frontend/src/game/storage/usePromisesKeptProgress.ts",
-    "frontend/src/game/storage/useQuizProgress.ts",
-    "frontend/src/screens/LandingScreen.tsx",
+    "frontend/public/sw.js",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

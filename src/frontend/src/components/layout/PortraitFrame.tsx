@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import InstallBanner from '../pwa/InstallBanner';
+import PwaDiagnosticsPanel from '../pwa/PwaDiagnosticsPanel';
 
 interface PortraitFrameProps {
   children: ReactNode;
@@ -8,6 +9,9 @@ interface PortraitFrameProps {
 }
 
 export default function PortraitFrame({ children, showPattern = true, showInstallUI = false }: PortraitFrameProps) {
+  // Only show diagnostics in development mode
+  const isDevelopment = import.meta.env.DEV;
+
   return (
     <div className="min-h-screen w-full bg-black">
       <div 
@@ -22,6 +26,7 @@ export default function PortraitFrame({ children, showPattern = true, showInstal
       >
         {children}
         {showInstallUI && <InstallBanner />}
+        {isDevelopment && <PwaDiagnosticsPanel />}
       </div>
     </div>
   );

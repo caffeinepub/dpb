@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Heart, Eye, EyeOff, SkipForward } from 'lucide-react';
+import { Heart, Eye, EyeOff, SkipForward, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getLevelComponent } from '../game/levels/levelRegistry';
@@ -14,9 +14,10 @@ interface LevelPlayScreenProps {
   onWin: () => void;
   onLose: () => void;
   onSkip?: () => void;
+  onBackToEvents?: () => void;
 }
 
-export default function LevelPlayScreen({ levelNumber, gameEventId, onWin, onLose, onSkip }: LevelPlayScreenProps) {
+export default function LevelPlayScreen({ levelNumber, gameEventId, onWin, onLose, onSkip, onBackToEvents }: LevelPlayScreenProps) {
   const [key, setKey] = useState(0);
   const [showHint, setShowHint] = useState(false);
   
@@ -63,6 +64,20 @@ export default function LevelPlayScreen({ levelNumber, gameEventId, onWin, onLos
         />
 
         <div className="max-w-2xl mx-auto py-8 space-y-6 relative z-10">
+          {/* Back to Events button */}
+          {onBackToEvents && (
+            <div className="mb-4">
+              <Button
+                onClick={onBackToEvents}
+                variant="outline"
+                className="flex items-center gap-2 bg-white/80 border-rose-300 text-rose-700 hover:bg-rose-50 backdrop-blur-sm"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to Events
+              </Button>
+            </div>
+          )}
+
           <div className="text-center mb-4">
             <h1 className="text-2xl md:text-3xl font-bold text-rose-700 mb-1">
               {gameTitle}
@@ -147,6 +162,20 @@ export default function LevelPlayScreen({ levelNumber, gameEventId, onWin, onLos
       />
 
       <div className="max-w-2xl mx-auto py-8 space-y-6 relative z-10">
+        {/* Back to Events button */}
+        {onBackToEvents && (
+          <div className="mb-4">
+            <Button
+              onClick={onBackToEvents}
+              variant="outline"
+              className="flex items-center gap-2 bg-white/80 border-rose-300 text-rose-700 hover:bg-rose-50 backdrop-blur-sm"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Events
+            </Button>
+          </div>
+        )}
+
         <div className="text-center mb-4">
           <h1 className="text-xl md:text-2xl font-bold text-rose-700 mb-1 drop-shadow-sm">
             {gameTitle}

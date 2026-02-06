@@ -5,8 +5,13 @@ import { usePwaInstall } from '../../pwa/usePwaInstall';
 import InstallHelpDialog from './InstallHelpDialog';
 
 export default function InstallBanner() {
-  const { isInstallable, isIOS, isDismissed, promptInstall, dismiss } = usePwaInstall();
+  const { isInstallable, isIOS, isDismissed, isStandalone, promptInstall, dismiss } = usePwaInstall();
   const [showHelp, setShowHelp] = useState(false);
+
+  // Don't show if already installed/standalone
+  if (isStandalone) {
+    return null;
+  }
 
   // Don't show if dismissed or not installable and not iOS
   if (isDismissed || (!isInstallable && !isIOS)) {
@@ -30,7 +35,7 @@ export default function InstallBanner() {
             
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-semibold text-white mb-1">
-                Install DPB App
+                Install App
               </h3>
               
               {isIOS ? (
@@ -50,7 +55,7 @@ export default function InstallBanner() {
                     onClick={handleInstall}
                     className="bg-pink-600 hover:bg-pink-700 text-white text-xs h-8"
                   >
-                    Install Now
+                    Install
                   </Button>
                 )}
                 

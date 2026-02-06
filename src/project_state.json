@@ -1,30 +1,16 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Game/app with an install button UI and multiple games/levels; user requests a permanent heart-shaped install button and fixes to level functionality and progression rules.",
+  "summary": "New project",
   "architectural_notes": [
-    "Level progression should be gated so a level only unlocks after completing the previous level, respecting win/loss rules."
+    "PWA installability depends on correct web app manifest (name/start_url/display), valid icon sizes, and service worker lifecycle; aggressive caching can delay updates and keep showing 'Create shortcut'."
   ],
   "known_issues": [
-    "Some game levels do not work properly.",
-    "Some levels unlock/open before completing the previous level."
+    "On Android/Chrome the app still shows 'Create shortcut' instead of 'Install app', and the install/logo icon is missing on some devices (likely manifest/icon/service worker cache/installability criteria)."
   ],
   "isFixRequest": true,
   "existing_features": [],
-  "new_feature_requests": [
-    {
-      "id": "AR-1",
-      "summary": "Add an install button with a heart shape and keep it permanently visible (not temporary).",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Verify and fix all game levels: resolve broken levels, enforce correct level unlock order (no skipping), and ensure win/loss rules work smoothly across all levels.",
-      "reqIds": [],
-      "status": "pending"
-    }
-  ],
+  "new_feature_requests": [],
   "projectName": "Untitled request",
   "clarification_mode": "instant",
   "clarification_rounds": 0

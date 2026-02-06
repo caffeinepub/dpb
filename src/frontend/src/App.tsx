@@ -4,7 +4,6 @@ import { useProgress } from './game/storage/useProgress';
 import { usePromisesKeptProgress } from './game/storage/usePromisesKeptProgress';
 import { useQuizProgress } from './game/storage/useQuizProgress';
 import { lockPassword } from './game/storage/passwordGate';
-import { registerServiceWorker } from './pwa/registerServiceWorker';
 import LandingScreen from './screens/LandingScreen';
 import LoadingScreen from './screens/LoadingScreen';
 import EventsHubScreen from './screens/EventsHubScreen';
@@ -34,9 +33,6 @@ export default function App() {
   useEffect(() => {
     // Clear any stored unlock flag to ensure app always starts locked
     lockPassword();
-    
-    // Register service worker for PWA functionality
-    registerServiceWorker();
   }, []);
 
   const handlePasswordSuccess = () => {
@@ -171,6 +167,7 @@ export default function App() {
           onWin={handleLevelWin}
           onLose={handleLevelLose}
           onSkip={handleSkipLevel}
+          onBackToEvents={handleBackToEvents}
         />
       )}
       {screen === 'quiz' && activeGameEvent === 'event-2' && (

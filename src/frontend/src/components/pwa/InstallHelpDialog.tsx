@@ -18,7 +18,7 @@ export default function InstallHelpDialog({ open, onOpenChange }: InstallHelpDia
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md bg-gray-900 border-pink-700/50 text-gray-100">
         <DialogHeader>
-          <DialogTitle className="text-xl text-pink-400">How to Install DPB</DialogTitle>
+          <DialogTitle className="text-xl text-pink-400">How to Install App</DialogTitle>
           <DialogDescription className="text-gray-400">
             Follow these steps to install the app on your device
           </DialogDescription>
@@ -164,7 +164,7 @@ export default function InstallHelpDialog({ open, onOpenChange }: InstallHelpDia
               <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 mt-3">
                 <p className="text-xs text-gray-400 mb-2 font-semibold">Alternative method:</p>
                 <p className="text-xs text-gray-400">
-                  Click the <span className="font-semibold text-white">three dots menu</span> (⋮) → <span className="font-semibold text-white">"Install DPB"</span> or <span className="font-semibold text-white">"Create shortcut"</span>
+                  Click the <span className="font-semibold text-white">three dots menu</span> (⋮) → <span className="font-semibold text-white">"Install App"</span> or <span className="font-semibold text-white">"Create shortcut"</span>
                 </p>
               </div>
             </div>

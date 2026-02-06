@@ -2,10 +2,20 @@ import { useState } from 'react';
 import { Heart } from 'lucide-react';
 import { usePwaInstall } from '../../pwa/usePwaInstall';
 import InstallHelpDialog from './InstallHelpDialog';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
 
 export default function InstallHeartButton() {
-  const { isInstallable, isStandalone, promptInstall } = usePwaInstall();
-  const [showHelpDialog, setShowHelpDialog] = useState(false);
+  const { isInstallable, isIOS, isStandalone, promptInstall } = usePwaInstall();
+  const [showHelp, setShowHelp] = useState(false);
+  const [showFallback, setShowFallback] = useState(false);
 
   // Don't show if already installed/standalone
   if (isStandalone) {
@@ -14,24 +24,22 @@ export default function InstallHeartButton() {
 
   const handleClick = async () => {
     if (isInstallable) {
-      // Native prompt is available - trigger it
-      const installed = await promptInstall();
-      if (!installed) {
-        // If user dismissed the native prompt, show help dialog as fallback
-        setShowHelpDialog(true);
-      }
+      // Native prompt is available (Android/Chrome) - trigger it directly
+      await promptInstall();
+    } else if (isIOS) {
+      // iOS device - show install help dialog
+      setShowHelp(true);
     } else {
-      // No native prompt available (iOS or other platforms) - show help dialog
-      setShowHelpDialog(true);
+      // Not installable and not iOS - show fallback message
+      setShowFallback(true);
     }
   };
 
   return (
     <>
-      {/* Heart-shaped install button - always visible, no dismiss */}
       <button
         onClick={handleClick}
-        aria-label="Install DPB App"
+        aria-label="Install App"
         className="group relative inline-flex items-center justify-center"
       >
         {/* Animated heart with pulsing effect */}
@@ -48,10 +56,25 @@ export default function InstallHeartButton() {
         </div>
       </button>
 
-      <InstallHelpDialog 
-        open={showHelpDialog} 
-        onOpenChange={setShowHelpDialog} 
-      />
+      {/* iOS Install Help Dialog */}
+      <InstallHelpDialog open={showHelp} onOpenChange={setShowHelp} />
+
+      {/* Fallback Alert for unsupported browsers */}
+      <AlertDialog open={showFallback} onOpenChange={setShowFallback}>
+        <AlertDialogContent className="max-w-sm bg-gray-900 border-pink-700/50 text-gray-100">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-pink-400">Install App</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-300">
+              Installation is not currently available in this browser. To install the app, please use your browser's menu and look for "Add to Home Screen" or "Install App" option.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction className="bg-pink-600 hover:bg-pink-700 text-white">
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

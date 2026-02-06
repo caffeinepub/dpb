@@ -13,6 +13,9 @@ export function usePwaInstall() {
   const [isIOS, setIsIOS] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [hasServiceWorkerController, setHasServiceWorkerController] = useState(false);
+  const [manifestUrl, setManifestUrl] = useState<string>('');
+  const [beforeInstallPromptCaptured, setBeforeInstallPromptCaptured] = useState(false);
 
   useEffect(() => {
     // Check if running on iOS
@@ -23,6 +26,24 @@ export function usePwaInstall() {
     const standalone = window.matchMedia('(display-mode: standalone)').matches || 
                        (window.navigator as any).standalone === true;
     setIsStandalone(standalone);
+    
+    // Check service worker controller status
+    const checkController = () => {
+      setHasServiceWorkerController(!!navigator.serviceWorker?.controller);
+    };
+    checkController();
+    
+    // Listen for controller changes
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('controllerchange', checkController);
+    }
+
+    // Get manifest URL
+    const manifestLink = document.querySelector('link[rel="manifest"]') as HTMLLinkElement;
+    if (manifestLink) {
+      const resolvedUrl = new URL(manifestLink.href, window.location.href).href;
+      setManifestUrl(resolvedUrl);
+    }
     
     if (standalone) {
       return; // Already installed, don't show prompt
@@ -38,16 +59,21 @@ export function usePwaInstall() {
 
     // Listen for beforeinstallprompt event (Chrome, Edge, Samsung Internet)
     const handleBeforeInstallPrompt = (e: Event) => {
+      console.log('[PWA] beforeinstallprompt event fired');
       e.preventDefault();
       const promptEvent = e as BeforeInstallPromptEvent;
       setDeferredPrompt(promptEvent);
       setIsInstallable(true);
+      setBeforeInstallPromptCaptured(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.removeEventListener('controllerchange', checkController);
+      }
     };
   }, []);
 
@@ -61,18 +87,18 @@ export function usePwaInstall() {
       const choiceResult = await deferredPrompt.userChoice;
       
       if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the install prompt');
+        console.log('[PWA] User accepted the install prompt');
         setIsInstallable(false);
         return true;
       } else {
-        console.log('User dismissed the install prompt');
+        console.log('[PWA] User dismissed the install prompt');
         // Treat native prompt dismissal as a dismissal
         localStorage.setItem(DISMISS_KEY, 'true');
         setIsDismissed(true);
         return false;
       }
     } catch (error) {
-      console.error('Error prompting install:', error);
+      console.error('[PWA] Error prompting install:', error);
       return false;
     } finally {
       setDeferredPrompt(null);
@@ -89,6 +115,9 @@ export function usePwaInstall() {
     isIOS,
     isDismissed,
     isStandalone,
+    hasServiceWorkerController,
+    manifestUrl,
+    beforeInstallPromptCaptured,
     promptInstall,
     dismiss,
   };
